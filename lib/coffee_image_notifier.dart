@@ -15,6 +15,7 @@ class CoffeeImageNotifier extends AsyncNotifier<String?> {
     return await _getImageUrl();
   }
 
+  // If this were more than one statement, I would put it in a service
   Future<String?> _getImageUrl() =>
       dio.get('https://coffee.alexflipnote.dev/random.json').then(
             (response) => response.data != null

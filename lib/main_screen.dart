@@ -12,12 +12,20 @@ class MainScreen extends StatelessWidget {
       length: 2,
       child: Scaffold(
           appBar: AppBar(
-            bottom: const TabBar(tabs: [
-              Icon(Icons.swipe),
-              Icon(Icons.history),
-            ]),
+            toolbarHeight: 25,
+            bottom: const TabBar(
+              padding: EdgeInsets.all(5),
+              tabs: [
+                Tab(icon: Icon(Icons.swipe)),
+                Tab(icon: Icon(Icons.history)),
+              ],
+            ),
           ),
           body: const TabBarView(
+            // To not interfere with swipe
+            //  An enhancement would be to disable or make rigid only when index is on swipe tab
+            //  For this, remove Default and create own tab controller.
+            physics: NeverScrollableScrollPhysics(),
             children: [
               CoffeeSwipeTab(),
               SavedCoffeesTab(),

@@ -1,26 +1,23 @@
-import 'dart:async';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'main.dart';
 
 final savedCoffeesProvider =
-    AsyncNotifierProvider<SavedCoffeesNotifier, List<String>?>(
+    NotifierProvider<SavedCoffeesNotifier, List<String>?>(
         () => SavedCoffeesNotifier());
 
-class SavedCoffeesNotifier extends AsyncNotifier<List<String>?> {
+class SavedCoffeesNotifier extends Notifier<List<String>?> {
   final stringListName = 'savedCoffees';
 
   @override
-  FutureOr<List<String>?> build() async {
+  List<String>? build() {
     return ref.read(sharedPreferencesProvider).getStringList(stringListName);
   }
 
   saveCoffee(String url) {
-    final newList = state.value == null ? [url] : [...state.value!, url];
+    final newList = state == null ? [url] : [...state!, url];
 
-    state = AsyncData(newList);
+    state = newList;
     ref.read(sharedPreferencesProvider).setStringList(stringListName, newList);
   }
 }

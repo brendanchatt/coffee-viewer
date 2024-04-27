@@ -15,30 +15,66 @@ class CoffeeSwipeTab extends ConsumerStatefulWidget {
 class _CoffeeSwipeTabState extends ConsumerState<CoffeeSwipeTab> {
   @override
   Widget build(BuildContext context) {
-    final coffee = ref.read(coffeeImagesProvider);
+    final coffee = ref.watch(coffeeImagesProvider);
 
     return switch (coffee) {
       AsyncData() => coffee.value == null
           ? problemTextWidget
-          : SwipableStack(
-              itemCount: 1,
-              builder: (context, swipeProperty) {
-                return Card(
-                  child: CachedNetworkImage(imageUrl: coffee.value!),
-                );
-              },
-              onSwipeCompleted: (_, SwipeDirection direction) async {
-                direction == SwipeDirection.right
-                    ? ref
-                        .read(savedCoffeesProvider.notifier)
-                        .saveCoffee(coffee.value!)
-                    : CachedNetworkImage.evictFromCache(coffee.value!);
-                await ref.read(coffeeImagesProvider.notifier).setNewImage();
-                setState(() {});
-              },
+          : Column(
+              children: [
+                SizedBox(
+                  height: MediaQuery.sizeOf(context).height / 1.5,
+                  child: SwipableStack(
+                    swipeAnchor: SwipeAnchor.bottom,
+                    itemCount: 1,
+                    builder: (context, swipeProperty) {
+                      return Center(
+                        child: Card(
+                          child: CachedNetworkImage(
+                            imageUrl: coffee.value!,
+                          ),
+                        ),
+                      );
+                    },
+                    onSwipeCompleted: (_, SwipeDirection direction) async {
+                      direction == SwipeDirection.right
+                          ? ref
+                              .read(savedCoffeesProvider.notifier)
+                              .saveCoffee(coffee.value!)
+                          : CachedNetworkImage.evictFromCache(coffee.value!);
+
+                      await ref
+                          .read(coffeeImagesProvider.notifier)
+                          .setNewImage();
+
+                      setState(() {});
+                    },
+                  ),
+                ),
+                const SizedBox(height: 25),
+                // You could also make these icons and texts detect gesture
+                //  Use the swipable stack controller to do so
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Icon(
+                      Icons.arrow_circle_left,
+                      color: Colors.red,
+                    ),
+                    Text('Ditch', style: TextStyle(color: Colors.red)),
+                    Text('Swipe',
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text('Keep', style: TextStyle(color: Colors.green)),
+                    Icon(Icons.arrow_circle_right, color: Colors.green),
+                  ],
+                )
+              ],
             ),
-      AsyncLoading() => const SizedBox(
-          height: 100, width: 100, child: CircularProgressIndicator()),
+      AsyncLoading() => Container(
+          alignment: Alignment.center,
+          height: 50,
+          width: 50,
+          child: const CircularProgressIndicator()),
       _ => problemTextWidget,
     };
   }
