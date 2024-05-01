@@ -1,16 +1,28 @@
-# coffee_viewer
+# Coffee Viewer
 
-A new Flutter project.
+Coffee Viewer is a sample code app designed to present users images of coffee which they may ditch or save to the device
 
-## Getting Started
+## To Run
 
-This project is a starting point for a Flutter application.
+- To run this project, you need to have [Flutter](https://flutter.dev) installed.  Follow [this guide](https://docs.flutter.dev/get-started/install) to install.
 
-A few resources to get you started if this is your first Flutter project:
+- [Clone the repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- Make sure you have an iOS or Android emulator
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Run the commands `flutter pub get` and `flutter run`
+
+## Using the app
+
+The app is very self-explanatory
+
+The initial tabs allows you to swipe left to ditch an image, or right to save it.
+
+To view your saved images, navigate to your saved tab using the tab bar at the top.
+
+## Possible enhancments
+
+Some things I would do to improve this app if it were not a sample are
+
+1. Manually manage the image caching, so as not to cache all, then evict those not saved.
+2. Modify explainer row at the bottom of the swipe tab to have gesture detectors around the left and right text and arrows connected to to swipable stack controller.

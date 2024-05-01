@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   group('saved coffees notifier state', () {
-    test('no saved coffees', () async {
+    test('no saved coffees yields null provider state', () async {
       SharedPreferences.setMockInitialValues({});
       final prefs = await SharedPreferences.getInstance();
 
@@ -17,7 +17,7 @@ void main() {
       expect(container.read(savedCoffeesProvider), null);
     });
 
-    test('coffees saved', () async {
+    test('coffees saved yields non empty list provider state', () async {
       SharedPreferences.setMockInitialValues({
         SavedCoffeesNotifier.stringListName: [
           'test.com/pic',

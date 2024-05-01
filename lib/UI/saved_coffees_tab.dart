@@ -1,8 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:coffee_viewer/state/saved_coffees_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../state/saved_coffees_notifier.dart';
 import 'cached_coffee_network_image.dart';
 
 class SavedCoffeesTab extends ConsumerWidget {
@@ -21,7 +20,7 @@ class SavedCoffeesTab extends ConsumerWidget {
             crossAxisSpacing: 5,
             children: savedCoffees
                 .map(
-                  (url) => CachedCoffeeNetworkImage(url),
+                  (url) => Card(child: CachedCoffeeNetworkImage(url)),
                 )
                 .toList(),
           )

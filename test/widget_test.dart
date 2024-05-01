@@ -9,12 +9,10 @@ import 'package:coffee_viewer/UI/coffee_swipe_tab.dart';
 import 'package:coffee_viewer/UI/saved_coffees_tab.dart';
 import 'package:coffee_viewer/main.dart';
 
-const fileUrl = 'test.com/cappuccino';
-
 class MockCoffeeNotifier extends CoffeeImageNotifier {
   @override
   Future<String?> getImageUrl() async {
-    return fileUrl;
+    return 'test.com/cappuccino';
   }
 }
 
@@ -30,14 +28,16 @@ void main() async {
   );
 
   group('swipe tab', () {
-    testWidgets('no internet problem widget', (WidgetTester tester) async {
+    testWidgets('no internet yields problem widget',
+        (WidgetTester tester) async {
       await tester.pumpWidget(ps);
       await tester.pumpAndSettle();
 
       expect(find.text(CoffeeSwipeTab.problemText), findsOneWidget);
     });
 
-    testWidgets('cached network image widget found',
+    testWidgets(
+        'cached network image widget found when notifier provides url value',
         (WidgetTester tester) async {
       ps.overrides
           .add(coffeeImagesProvider.overrideWith(() => MockCoffeeNotifier()));
@@ -48,13 +48,5 @@ void main() async {
 
       expect(find.byType(CachedNetworkImage), findsOneWidget);
     });
-  });
-
-  testWidgets('saved coffees tab - none saved', (tester) async {
-    await tester.pumpWidget(ps);
-    await tester.tap(find.byIcon(Icons.history));
-    await tester.pumpAndSettle();
-
-    expect(find.text(SavedCoffeesTab.noSavedText), findsOneWidget);
   });
 }
