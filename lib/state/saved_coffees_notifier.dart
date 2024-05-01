@@ -1,13 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'main.dart';
+import '../main.dart';
 
 final savedCoffeesProvider =
     NotifierProvider<SavedCoffeesNotifier, List<String>?>(
         () => SavedCoffeesNotifier());
 
 class SavedCoffeesNotifier extends Notifier<List<String>?> {
-  final stringListName = 'savedCoffees';
+  static const String stringListName = 'savedCoffees';
 
   @override
   List<String>? build() {

@@ -1,12 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:coffee_viewer/coffee_image_notifier.dart';
-import 'package:coffee_viewer/saved_coffees_notifier.dart';
+import 'package:coffee_viewer/UI/cached_coffee_network_image.dart';
+import 'package:coffee_viewer/state/coffee_image_notifier.dart';
+import 'package:coffee_viewer/state/saved_coffees_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swipable_stack/swipable_stack.dart';
 
 class CoffeeSwipeTab extends ConsumerStatefulWidget {
   const CoffeeSwipeTab({super.key});
+  static const problemText = 'Something went wrong :/';
 
   @override
   ConsumerState<CoffeeSwipeTab> createState() => _CoffeeSwipeTabState();
@@ -30,10 +32,10 @@ class _CoffeeSwipeTabState extends ConsumerState<CoffeeSwipeTab> {
                     builder: (context, swipeProperty) {
                       return Center(
                         child: Card(
-                          child: CachedNetworkImage(
-                            imageUrl: coffee.value!,
-                          ),
-                        ),
+                            child: CachedCoffeeNetworkImage(
+                          coffee.value!,
+                          indicateLoading: true,
+                        )),
                       );
                     },
                     onSwipeCompleted: (_, SwipeDirection direction) async {
@@ -80,5 +82,5 @@ class _CoffeeSwipeTabState extends ConsumerState<CoffeeSwipeTab> {
   }
 
   final problemTextWidget =
-      const Center(child: Text('Something went wrong :/'));
+      const Center(child: Text(CoffeeSwipeTab.problemText));
 }

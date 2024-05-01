@@ -1,10 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:coffee_viewer/saved_coffees_notifier.dart';
+import 'package:coffee_viewer/state/saved_coffees_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'cached_coffee_network_image.dart';
+
 class SavedCoffeesTab extends ConsumerWidget {
   const SavedCoffeesTab({super.key});
+  static const noSavedText =
+      'You haven\'t saved any coffees yet.\nGo play on the swipe screen. :)';
 
   @override
   Widget build(BuildContext context, ref) {
@@ -17,13 +21,12 @@ class SavedCoffeesTab extends ConsumerWidget {
             crossAxisSpacing: 5,
             children: savedCoffees
                 .map(
-                  (url) => CachedNetworkImage(imageUrl: url),
+                  (url) => CachedCoffeeNetworkImage(url),
                 )
                 .toList(),
           )
         : const Center(
-            child: Text(
-                'You haven\'t saved any coffees yet.\nGo play on the swipe screen. :)'),
+            child: Text(SavedCoffeesTab.noSavedText),
           );
   }
 }
